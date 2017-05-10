@@ -1,3 +1,7 @@
-<p>
-  flight-list works!
-</p>
+<ul class="list-group">
+  Parent: {{ list }}
+  <li *ngFor="let flight of flights | async" class="list-group-item justify-content-between">
+    {{flight.price}}
+    <span class="badge badge-default badge-pill">14</span>
+  </li>
+</ul>

@@ -43,6 +43,27 @@
   </div>
   <div class="mx-auto">
     <br>
-  <button type="submit" class="btn btn-success">Submit</button>
+  <button type="submit" class="btn btn-primary">Submit</button>
   </div>
 </form>
+
+<!--<div class="container">
+    <br>
+    <app-flight-list
+    [parentList]="list"
+    ></app-flight-list>
+</div>-->
+
+<div class="container">
+    <br>
+<ul class="list-group">
+  <li [class.active]="mouseOvered" (mouseout)="mouseOvered=false" (mouseover)="onMouseOver($event)" *ngFor="let flight of cheapFlights" class="list-group-item justify-content-between">
+   <p> <i class="fa fa-arrow-right" aria-hidden="true"></i> <b> Departure: </b>
+    {{flight.dateFrom | date:'fullDate'}} </p>
+    
+   <p>  <i class="fa fa-arrow-right" aria-hidden="true"></i> 
+   Return: {{flight.dateTo | date:'fullDate'}}</p> 
+   <h4> <span class="badge badge-info badge-pill">{{flight.price | number:'2.1-2'}}{{flight.currency}}</span> </h4>
+  </li>
+</ul>
+</div>

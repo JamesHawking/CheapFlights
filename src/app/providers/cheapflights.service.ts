@@ -21,7 +21,8 @@ export class CheapflightsService {
 
   private handleResponse(res: Response) {
     let body = res.json();
-    console.log(body);
+    
+    // console.log(body.flights);
     // let airportsToReturn = [];
     // body.airports.map(airport => airportsToReturn.push({
     //   iataCode: airport.iataCode,
@@ -29,7 +30,7 @@ export class CheapflightsService {
     //   city: airport.name
     // }));
 
-    // return airportsToReturn || {};
+    return body.flights || {};
   }
 
   private handleError(error: Response | any) {

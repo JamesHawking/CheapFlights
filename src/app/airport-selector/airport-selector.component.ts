@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
@@ -20,6 +20,8 @@ import { FormGroup, FormControl, Validators, FormBuilder }
 export class AirportSelectorComponent implements OnInit {
   constructor(private airportsService: AirportsService, private cheapflightsService: CheapflightsService) { }
 
+  @Output() parentList: EventEmitter<any> = new EventEmitter();
+
   model = {};
   errorMessage: string;
   airportsList: any[];
@@ -29,6 +31,7 @@ export class AirportSelectorComponent implements OnInit {
   destination: any;
   cityList: any[];
   submitted = false;
+  cheapFlights: Observable<Array<any>>;
   travelForm: FormGroup;
   public events: any[] = [];
 
@@ -58,8 +61,10 @@ export class AirportSelectorComponent implements OnInit {
     // let formData = this.travelForm.value;
     this.cheapflightsService.getFlights(originCode, destinationCode, departureDate, returnDate)
       .subscribe(
-      flights => this.flightList = flights,
-      error => this.errorMessage = <any>error);
+      flights => this.cheapFlights = flights,
+      error => this.errorMessage = <any>error,
+      () => console.log(this.cheapFlights));
+      //this.parentList.emit(this.cheapFlights));
   }
 
 
@@ -72,7 +77,7 @@ export class AirportSelectorComponent implements OnInit {
     let destinationCode = this.airportsList.filter(airport => {
       return airport.city === value.destination;
     }).map(airport => airport.iataCode);
-    //'${value.departureDate[key]}-${value.departureDate[key]]-${value.departureDate[key]}'
+
      let departureDate = Object.keys(value.departureDate).
      map(key => `${value.departureDate[key]}`).reduce((acc, value) => `${acc}-${value}`);
 
@@ -83,6 +88,10 @@ export class AirportSelectorComponent implements OnInit {
     //console.log(this.airportsList);
     //console.log(value);
     this.searchCheapFlights(originCode, destinationCode, departureDate, returnDate);
+  }
+
+  onMouseOver(e) {
+   // e.target.classList;
   }
 
   ngOnInit() {
