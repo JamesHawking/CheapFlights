@@ -5,6 +5,7 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 
 import { AirportsService } from '../providers/airports.service';
+import { CheapflightsService } from '../providers/cheapflights.service';
 
 import { DatePickerComponent } from '../date-picker/date-picker.component';
 
@@ -17,10 +18,12 @@ import { FormGroup, FormControl, Validators, FormBuilder }
   styleUrls: ['./airport-selector.component.css']
 })
 export class AirportSelectorComponent implements OnInit {
-  constructor(private airportsService: AirportsService) { }
+  constructor(private airportsService: AirportsService, private cheapflightsService: CheapflightsService) { }
 
+  model = {};
   errorMessage: string;
   airportsList: any[];
+  flightList: any;
   countryNames: any;
   origin: any;
   destination: any;
@@ -51,14 +54,35 @@ export class AirportSelectorComponent implements OnInit {
       error => this.errorMessage = <any>error);
   }
 
-  searchCheapFlights(event) {
-    let formData = this.travelForm.value;
+  searchCheapFlights(originCode, destinationCode, departureDate, returnDate) {
+    // let formData = this.travelForm.value;
+    this.cheapflightsService.getFlights(originCode, destinationCode, departureDate, returnDate)
+      .subscribe(
+      flights => this.flightList = flights,
+      error => this.errorMessage = <any>error);
   }
 
 
   onSubmit({ value, valid }: { value: any, valid: boolean }) { 
     this.submitted = true; 
-    console.log(value)
+    let originCode = this.airportsList.filter(airport => {
+      return airport.city === value.origin;
+    }).map(airport => airport.iataCode);
+
+    let destinationCode = this.airportsList.filter(airport => {
+      return airport.city === value.destination;
+    }).map(airport => airport.iataCode);
+    //'${value.departureDate[key]}-${value.departureDate[key]]-${value.departureDate[key]}'
+     let departureDate = Object.keys(value.departureDate).
+     map(key => `${value.departureDate[key]}`).reduce((acc, value) => `${acc}-${value}`);
+
+    let returnDate = Object.keys(value.returnDate).
+     map(key => `${value.returnDate[key]}`).reduce((acc, value) => `${acc}-${value}`);
+
+    //console.log(departureDate, returnDate);
+    //console.log(this.airportsList);
+    //console.log(value);
+    this.searchCheapFlights(originCode, destinationCode, departureDate, returnDate);
   }
 
   ngOnInit() {

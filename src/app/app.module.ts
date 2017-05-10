@@ -9,13 +9,16 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AirportSelectorComponent } from './airport-selector/airport-selector.component';
 
 import { AirportsService } from './providers/airports.service';
-import { DatePickerComponent } from './date-picker/date-picker.component'
+import { CheapflightsService } from './providers/cheapflights.service';
+import { DatePickerComponent } from './date-picker/date-picker.component';
+import { FlightListComponent } from './flight-list/flight-list.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     AirportSelectorComponent,
-    DatePickerComponent
+    DatePickerComponent,
+    FlightListComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +26,7 @@ import { DatePickerComponent } from './date-picker/date-picker.component'
     HttpModule,
     NgbModule.forRoot()
   ],
-  providers: [AirportsService],
+  providers: [AirportsService, CheapflightsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
