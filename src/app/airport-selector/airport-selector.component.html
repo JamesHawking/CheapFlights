@@ -1,28 +1,34 @@
 
-
+<form (ngSubmit)="onSubmit()" #travelForm="ngForm" class="form-inline">
 <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card-group mb-0">
                     <div class="card p-2">
-                        <div class="card-block">
+                        <div class="card-block text-center">
                             <h1>Origin</h1>
                             <p class="text-muted">Select your origin</p>
                             <div class="input-group mb-1">
-                              <input id="typeahead-basic" type="text" class="form-control" [(ngModel)]="data.origin" [ngbTypeahead]="search"/>
+                              <input id="typeahead-basic" type="text" class="form-control" name="origin" [(ngModel)]="origin" [ngbTypeahead]="searchForOrigin"/>
                             </div>
+                            <app-date-picker></app-date-picker>
                         </div>
                     </div>
-                    <div class="card card-inverse card-primary py-3 hidden-md-down" style="width:44%">
+                    <div class="card p-2" style="width:44%">
                         <div class="card-block text-center">
-                            <div>
-                                <h2>Sign up</h2>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                <button type="button" class="btn btn-primary active mt-1">Register Now!</button>
+                               <h1>Destination</h1>
+                            <p class="text-muted">Select your origin</p>
+                            <div class="input-group mb-1">
+                              <input id="typeahead-basic" type="text" class="form-control" name="destination" [(ngModel)]="destination" [ngbTypeahead]="searchForDestination"/>
                             </div>
+                            <app-date-picker></app-date-picker>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <button type="submit" class="btn btn-success">Submit</button>
+</form>
+
+

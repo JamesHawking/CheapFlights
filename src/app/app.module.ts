@@ -8,10 +8,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AirportSelectorComponent } from './airport-selector/airport-selector.component';
 
+import { AirportsService } from './providers/airports.service';
+import { DatePickerComponent } from './date-picker/date-picker.component'
+
 @NgModule({
   declarations: [
     AppComponent,
-    AirportSelectorComponent
+    AirportSelectorComponent,
+    DatePickerComponent
   ],
   imports: [
     BrowserModule,
@@ -19,7 +23,7 @@ import { AirportSelectorComponent } from './airport-selector/airport-selector.co
     HttpModule,
     NgbModule.forRoot()
   ],
-  providers: [],
+  providers: [AirportsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
