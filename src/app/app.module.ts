@@ -11,7 +11,10 @@ import { AirportSelectorComponent } from './airport-selector/airport-selector.co
 import { AirportsService } from './providers/airports.service';
 import { CheapflightsService } from './providers/cheapflights.service';
 import { DatePickerComponent } from './date-picker/date-picker.component';
-import { FlightListComponent } from './flight-list/flight-list.component'
+import { FlightListComponent } from './flight-list/flight-list.component';
+
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,8 @@ import { FlightListComponent } from './flight-list/flight-list.component'
     BrowserModule,
     FormsModule,
     HttpModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [AirportsService, CheapflightsService],
   bootstrap: [AppComponent]

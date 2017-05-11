@@ -12,10 +12,31 @@ import { DatePickerComponent } from '../date-picker/date-picker.component';
 import { FormGroup, FormControl, Validators, FormBuilder } 
     from '@angular/forms';
 
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition
+} from '@angular/animations';
+
+
 @Component({
   selector: 'app-airport-selector',
   templateUrl: './airport-selector.component.html',
-  styleUrls: ['./airport-selector.component.css']
+  styleUrls: ['./airport-selector.component.css'],
+  animations: [
+  trigger('flyInOut', [
+    state('in', style({transform: 'translateX(0)'})),
+    transition('void => *', [
+      style({transform: 'translateX(-100%)'}),
+      animate(500)
+    ]),
+    transition('* => void', [
+      animate(500, style({transform: 'translateX(100%)'}))
+    ])
+  ])
+]
 })
 export class AirportSelectorComponent implements OnInit {
   constructor(private airportsService: AirportsService, private cheapflightsService: CheapflightsService) { }
@@ -40,21 +61,22 @@ export class AirportSelectorComponent implements OnInit {
       .debounceTime(200)
       .distinctUntilChanged()
       .map(term => term.length < 2 ? []
-        : this.airportsList.map(airport => airport.city));
+        : this.cityList.filter(v => new RegExp(term, 'gi').test(v)).slice(0, 10));
 
   searchForDestination = (text$: Observable<string>) =>
     text$
       .debounceTime(200)
       .distinctUntilChanged()
       .map(term => term.length < 2 ? []
-        : this.airportsList.map(airport => airport.city));
+        : this.cityList.filter(v => new RegExp(term, 'gi').test(v)).slice(0, 10));
 
 
   getAirportsList() {
     this.airportsService.getAirports()
       .subscribe(
       airports => this.airportsList = airports,
-      error => this.errorMessage = <any>error);
+      error => this.errorMessage = <any>error, 
+      () => this.cityList = this.airportsList.map(airport => airport.city));
   }
 
   searchCheapFlights(originCode, destinationCode, departureDate, returnDate) {
@@ -96,6 +118,7 @@ export class AirportSelectorComponent implements OnInit {
 
   ngOnInit() {
     this.getAirportsList();
+    
   }
 
 }

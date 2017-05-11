@@ -13,7 +13,8 @@
               </div>
               <!--<app-date-picker></app-date-picker>-->
               <div class="input-group">
-                <input class="form-control" placeholder="yyyy-mm-dd" name="departureDate" [(ngModel)]="model.departureDate" ngbDatepicker #d="ngbDatepicker">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="departureDate" [(ngModel)]="model.departureDate" ngbDatepicker
+                  #d="ngbDatepicker">
                 <div class="input-group-addon" (click)="d.toggle()">
                   <i class="fa fa-calendar" aria-hidden="true"></i>
                 </div>
@@ -43,7 +44,7 @@
   </div>
   <div class="mx-auto">
     <br>
-  <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Submit</button>
   </div>
 </form>
 
@@ -55,15 +56,14 @@
 </div>-->
 
 <div class="container">
-    <br>
-<ul class="list-group">
-  <li [class.active]="mouseOvered" (mouseout)="mouseOvered=false" (mouseover)="onMouseOver($event)" *ngFor="let flight of cheapFlights" class="list-group-item justify-content-between">
-   <p> <i class="fa fa-arrow-right" aria-hidden="true"></i> <b> Departure: </b>
-    {{flight.dateFrom | date:'fullDate'}} </p>
-    
-   <p>  <i class="fa fa-arrow-right" aria-hidden="true"></i> 
-   Return: {{flight.dateTo | date:'fullDate'}}</p> 
-   <h4> <span class="badge badge-info badge-pill">{{flight.price | number:'2.1-2'}}{{flight.currency}}</span> </h4>
-  </li>
-</ul>
+  <br>
+  <ul class="list-group">
+    <li [@flyInOut]="flight.state" *ngFor="let flight of cheapFlights"
+      class="list-group-item justify-content-between">
+      <p> <i class="fa fa-arrow-right" aria-hidden="true"></i> <b> Departure: </b> {{flight.dateFrom | date:'fullDate'}} </p>
+
+      <p> <i class="fa fa-arrow-right" aria-hidden="true"></i> Return: {{flight.dateTo | date:'fullDate'}}</p>
+      <h4> <span class="badge badge-info badge-pill">{{flight.price | number:'2.1-2'}}{{flight.currency}}</span> </h4>
+    </li>
+  </ul>
 </div>
